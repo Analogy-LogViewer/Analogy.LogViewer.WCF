@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Analogy.Interfaces;
 using Analogy.Interfaces.Factories;
 
-namespace Analogy.LogViewer.WCF
+namespace Analogy.LogViewer.WCF.IAnalogy
 {
     public class WCFDataProviderFactory : IAnalogyDataProvidersFactory
     {
@@ -11,9 +11,7 @@ namespace Analogy.LogViewer.WCF
 
         public IEnumerable<IAnalogyDataProvider> Items => new List<IAnalogyDataProvider>
         {
-            //add 2 "real time data providers"
-            new WCFReceiver("Data Provider 1", new Guid("6642B160-F992-4120-B688-B02DE2E83256")),
-      
+            new WCFReceiver(Title, new Guid("6642B160-F992-4120-B688-B02DE2E83256")),
         };
     }
 }
