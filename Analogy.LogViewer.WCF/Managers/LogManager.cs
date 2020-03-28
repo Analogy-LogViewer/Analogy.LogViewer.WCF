@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Analogy.Interfaces;
+using System;
 using System.Collections.Generic;
-using Analogy.Interfaces;
 
 namespace Analogy.LogViewer.WCF.Managers
 {
@@ -10,16 +10,16 @@ namespace Analogy.LogViewer.WCF.Managers
 
         private IAnalogyLogger Logger { get; set; }
         public static LogManager Instance { get; } = _instance.Value;
-        private List<(AnalogyLogLevel level, string source, string message, string memberName, int lineNumber, string filePath)> pendingMessages { get; set; }
+        private List<(AnalogyLogLevel level, string source, string message, string memberName, int lineNumber, string filePath)> PendingMessages { get; set; }
         public LogManager()
         {
-            pendingMessages = new List<(AnalogyLogLevel level, string source, string message, string memberName, int lineNumber, string filePath)>();
+            PendingMessages = new List<(AnalogyLogLevel level, string source, string message, string memberName, int lineNumber, string filePath)>();
         }
 
         public void SetLogger(IAnalogyLogger logger)
         {
             Logger = logger;
-            foreach ((AnalogyLogLevel level, string source, string message, string memberName, int lineNumber, string filePath) in pendingMessages)
+            foreach ((AnalogyLogLevel level, string source, string message, string memberName, int lineNumber, string filePath) in PendingMessages)
             {
                 switch (level)
                 {
@@ -54,7 +54,7 @@ namespace Analogy.LogViewer.WCF.Managers
         {
             if (Logger == null)
             {
-                pendingMessages.Add((AnalogyLogLevel.Event, source, message, memberName, lineNumber, filePath));
+                PendingMessages.Add((AnalogyLogLevel.Event, source, message, memberName, lineNumber, filePath));
             }
             else
                 Logger.LogEvent(source, message, memberName, lineNumber, filePath);
@@ -64,7 +64,7 @@ namespace Analogy.LogViewer.WCF.Managers
         {
             if (Logger == null)
             {
-                pendingMessages.Add((AnalogyLogLevel.Warning, source, message, memberName, lineNumber, filePath));
+                PendingMessages.Add((AnalogyLogLevel.Warning, source, message, memberName, lineNumber, filePath));
             }
             else
                 Logger.LogWarning(source, message, memberName, lineNumber, filePath);
@@ -74,7 +74,7 @@ namespace Analogy.LogViewer.WCF.Managers
         {
             if (Logger == null)
             {
-                pendingMessages.Add((AnalogyLogLevel.Debug, source, message, memberName, lineNumber, filePath));
+                PendingMessages.Add((AnalogyLogLevel.Debug, source, message, memberName, lineNumber, filePath));
             }
             else
                 Logger.LogDebug(source, message, memberName, lineNumber, filePath);
@@ -84,7 +84,7 @@ namespace Analogy.LogViewer.WCF.Managers
         {
             if (Logger == null)
             {
-                pendingMessages.Add((AnalogyLogLevel.Error, source, message, memberName, lineNumber, filePath));
+                PendingMessages.Add((AnalogyLogLevel.Error, source, message, memberName, lineNumber, filePath));
             }
             else
                 Logger.LogError(source, message, memberName, lineNumber, filePath);
@@ -94,7 +94,7 @@ namespace Analogy.LogViewer.WCF.Managers
         {
             if (Logger == null)
             {
-                pendingMessages.Add((AnalogyLogLevel.Critical, source, message, memberName, lineNumber, filePath));
+                PendingMessages.Add((AnalogyLogLevel.Critical, source, message, memberName, lineNumber, filePath));
             }
             else
                 Logger.LogCritical(source, message, memberName, lineNumber, filePath);
@@ -105,7 +105,7 @@ namespace Analogy.LogViewer.WCF.Managers
         {
             if (Logger == null)
             {
-                pendingMessages.Add((AnalogyLogLevel.Error, source, $"Error: {message.Length }Exception: {ex}", memberName, lineNumber, filePath));
+                PendingMessages.Add((AnalogyLogLevel.Error, source, $"Error: {message.Length }Exception: {ex}", memberName, lineNumber, filePath));
             }
             else
                 Logger.LogException(ex, source, message, memberName, lineNumber, filePath);

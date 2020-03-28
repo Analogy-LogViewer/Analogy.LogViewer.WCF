@@ -1,15 +1,14 @@
-﻿using System;
-using System.Drawing;
+﻿using Analogy.Interfaces;
+using Analogy.LogViewer.WCF.Managers;
+using Analogy.LogViewer.WCF.WCFServices;
+using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Analogy.Interfaces;
-using Analogy.LogViewer.WCF.Managers;
-using Analogy.LogViewer.WCF.WCFServices;
 
 namespace Analogy.LogViewer.WCF.IAnalogy
 {
-    class WCFReceiver : IAnalogyRealTimeDataProvider
+    class WcfReceiver : IAnalogyRealTimeDataProvider
     {
 
         public string OptionalTitle { get; }
@@ -19,14 +18,14 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         public event EventHandler<AnalogyLogMessageArgs> OnMessageReady;
         public event EventHandler<AnalogyLogMessagesArgs> OnManyMessagesReady;
 
-        public IAnalogyOfflineDataProvider FileOperationsHandler { get; }
+        public IAnalogyOfflineDataProvider FileOperationsHandler { get; } = null;
         private IAnalogyLogger Logger { get; set; }
 
-        private AnalogyReceiverServer receiver;
-        private bool ReceiveingInProgress;
+        private AnalogyReceiverServer _receiver;
+        private bool ReceivingInProgress { get; set; }
         private ServiceHost _mSvcHost;
 
-        public WCFReceiver(string prefix, Guid guid)
+        public WcfReceiver(string prefix, Guid guid)
         {
             ID = guid;
             OptionalTitle = $"{prefix}";
@@ -36,17 +35,17 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         {
             Logger = logger;
             LogManager.Instance.SetLogger(logger);
-            if (!ReceiveingInProgress)
+            if (!ReceivingInProgress)
             {
-                receiver = new AnalogyReceiverServer();
-                receiver.Subscription += (s, m) =>
+                _receiver = new AnalogyReceiverServer();
+                _receiver.Subscription += (s, m) =>
                 {
                     m.Message.Text = $"{m.Message.Text}. Received from Analogy hostname: {m.HostName}";
                     OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m.Message, m.HostName, m.DataSource, ID));
                 };
             }
 
-            StartStopStopHost(receiver);
+            StartStopStopHost(_receiver);
             return Task.CompletedTask;
         }
 
@@ -66,18 +65,18 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         {
             OnDisconnected?.Invoke(this,
                 new AnalogyDataSourceDisconnectedArgs("user disconnected", Environment.MachineName, ID));
-            StartStopStopHost(receiver);
+            StartStopStopHost(_receiver);
         }
 
         private void StartStopStopHost(object singletonInstance, params Uri[] baseAddresses)
         {
-            if (ReceiveingInProgress)
+            if (ReceivingInProgress)
             {
                 OnMessageReady?.Invoke(this,
                     new AnalogyLogMessageArgs(
                         new AnalogyLogMessage("Stop Receiving Messages", AnalogyLogLevel.AnalogyInformation,
                             AnalogyLogClass.General, "", ""), Environment.MachineName, "", ID));
-                ReceiveingInProgress = false;
+                ReceivingInProgress = false;
 
                 try
                 {
@@ -96,7 +95,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                 {
                     _mSvcHost = new ServiceHost(singletonInstance, baseAddresses);
                     _mSvcHost.Open();
-                    ReceiveingInProgress = true;
+                    ReceivingInProgress = true;
                     OnMessageReady?.Invoke(this,
                         new AnalogyLogMessageArgs(
                             new AnalogyLogMessage("Server is running and listening to incoming messages",

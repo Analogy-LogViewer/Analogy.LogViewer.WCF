@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Analogy.Interfaces;
+﻿using Analogy.Interfaces;
 using Analogy.Interfaces.Factories;
+using System;
+using System.Collections.Generic;
 
 namespace Analogy.LogViewer.WCF.IAnalogy
 {
-    public class WCFFactory : IAnalogyFactory
+    public class WcfFactory : IAnalogyFactory
     {
         public Guid FactoryID => new Guid("10AF1A71-D774-41EC-93CC-D9B798DFC51B");
 
         public string Title => "WCF Receiver";
 
-        public IAnalogyDataProvidersFactory DataProviders { get; } = new WCFDataProviderFactory();
+        public IAnalogyDataProvidersFactory DataProviders { get; } = new WcfDataProviderFactory();
 
         public IAnalogyCustomActionsFactory Actions => null;
 
