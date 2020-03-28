@@ -2,6 +2,8 @@
 using Analogy.LogViewer.WCF.Managers;
 using Analogy.LogViewer.WCF.WCFServices;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,10 +27,10 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         private bool ReceivingInProgress { get; set; }
         private ServiceHost _mSvcHost;
 
-        public WcfReceiver(string prefix, Guid guid)
+        public WcfReceiver(Guid guid)
         {
             ID = guid;
-            OptionalTitle = $"{prefix}";
+            OptionalTitle = "Analogy WCF Receiver";
         }
 
         public Task InitializeDataProviderAsync(IAnalogyLogger logger)
@@ -38,10 +40,18 @@ namespace Analogy.LogViewer.WCF.IAnalogy
             if (!ReceivingInProgress)
             {
                 _receiver = new AnalogyReceiverServer();
-                _receiver.Subscription += (s, m) =>
+                _receiver.Subscription += (s, messages) =>
                 {
-                    m.Message.Text = $"{m.Message.Text}. Received from Analogy hostname: {m.HostName}";
-                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m.Message, m.HostName, m.DataSource, ID));
+                    List<AnalogyLogMessage> msgs = messages.ToList();
+                    if (msgs.Count == 1)
+                    {
+                        var m = msgs.First();
+                        OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", OptionalTitle, ID));
+                    }
+                    else
+                    {
+                        OnManyMessagesReady?.Invoke(this, new AnalogyLogMessagesArgs(msgs.ToList(), "", OptionalTitle));
+                    }
                 };
             }
 

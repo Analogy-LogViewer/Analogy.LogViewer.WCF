@@ -1,9 +1,10 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.WCF.WCFServicesInfrastructure;
+using System.Collections.Generic;
 
 namespace Analogy.LogViewer.WCF.WCFServices
 {
-    class AnalogyClientSender : WCFNonDuplexClient<IAnalogyServiceContract>
+    class AnalogyClientSender : WCFNonDuplexClient<IAnalogyServiceContract>, IAnalogyShareable
     {
         private static string clientEndpointConfigurationSectionName = "AnalogyService_Client";
         private static string clientConfigFile = "Analogy.LogViewer.WCF.dll.config";
@@ -11,9 +12,19 @@ namespace Analogy.LogViewer.WCF.WCFServices
         {
         }
 
-        public void SendMessage(AnalogyLogMessage message, string hostname, string dataSource)
+        public void SendMessage(AnalogyLogMessage message, string source)
         {
-            ClientProxy.SendMessageOTA(message, hostname, dataSource);
+            ClientProxy.SendMessage(message, source);
+        }
+
+        public void SendMessages(IEnumerable<AnalogyLogMessage> messages, string source)
+        {
+            ClientProxy.SendMessages(messages, source);
+        }
+
+        public void SendMessages(byte[] messages, string source)
+        {
+            ClientProxy.SendMessages(messages, source);
         }
     }
 }

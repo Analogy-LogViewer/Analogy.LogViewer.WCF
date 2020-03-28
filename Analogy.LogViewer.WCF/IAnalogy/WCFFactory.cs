@@ -7,13 +7,10 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 {
     public class WcfFactory : IAnalogyFactory
     {
-        public Guid FactoryID => new Guid("10AF1A71-D774-41EC-93CC-D9B798DFC51B");
+        internal static readonly Guid Id = new Guid("10AF1A71-D774-41EC-93CC-D9B798DFC51B");
+        public Guid FactoryId => Id;
 
         public string Title => "WCF Receiver";
-
-        public IAnalogyDataProvidersFactory DataProviders { get; } = new WcfDataProviderFactory();
-
-        public IAnalogyCustomActionsFactory Actions => null;
 
         public IEnumerable<IAnalogyChangeLog> ChangeLog { get; } = new List<AnalogyChangeLog>
         {
