@@ -3,6 +3,7 @@ using Analogy.LogViewer.WCF.Managers;
 using Analogy.LogViewer.WCF.WCFServices;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -12,7 +13,6 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 {
     class WcfReceiver : IAnalogyRealTimeDataProvider
     {
-
         public string OptionalTitle { get; }
         public Guid ID { get; }
         public bool IsConnected => true;
@@ -26,7 +26,12 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         private AnalogyReceiverServer _receiver;
         private bool ReceivingInProgress { get; set; }
         private ServiceHost _mSvcHost;
+        public bool UseCustomColors { get; set; } = false;
+        public IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
+            => Array.Empty<(string, string)>();
 
+        public (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
+            => (Color.Empty, Color.Empty);
         public WcfReceiver(Guid guid)
         {
             ID = guid;
