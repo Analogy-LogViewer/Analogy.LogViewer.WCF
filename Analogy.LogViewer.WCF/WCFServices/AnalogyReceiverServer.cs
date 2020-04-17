@@ -9,13 +9,13 @@ namespace Analogy.LogViewer.WCF.WCFServices
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class AnalogyReceiverServer : IAnalogyServiceContract
     {
-        public EventHandler<IEnumerable<AnalogyLogMessage>> Subscription { get; set; }
+        public EventHandler<List<AnalogyLogMessage>> Subscription { get; set; }
         public void SendMessage(AnalogyLogMessage message, string dataSource)
         {
             Subscription?.Invoke(this, new List<AnalogyLogMessage> { message });
         }
 
-        public void SendMessages(IEnumerable<AnalogyLogMessage> messages, string dataSource)
+        public void SendMessages(List<AnalogyLogMessage> messages, string dataSource)
         {
             Subscription?.Invoke(this, messages);
         }

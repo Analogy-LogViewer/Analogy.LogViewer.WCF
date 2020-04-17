@@ -10,7 +10,7 @@ namespace Analogy.LogViewer.WCF.WCFServices
         [OperationContract(IsOneWay = true)]
         void SendMessage(AnalogyLogMessage message, string dataSource);
         [OperationContract(IsOneWay = true)]
-        void SendMessages(IEnumerable<AnalogyLogMessage> messages, string dataSource);
+        void SendMessages(List<AnalogyLogMessage> messages, string dataSource);
         [OperationContract(IsOneWay = true)]
         void SendMessagesAsByte(byte[] messages, string dataSource);
     }

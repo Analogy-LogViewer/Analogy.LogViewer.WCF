@@ -16,6 +16,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         public Task<bool> InitializeSender()
         {
             proxy=new AnalogyClientSender(UserSettingsManager.UserSettings.Settings.IP, UserSettingsManager.UserSettings.Settings.Port);
+            
             proxy.Connect();
             return Task.FromResult(true);
         }
@@ -27,7 +28,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 
         public void SendMessages(IEnumerable<AnalogyLogMessage> messages, string source)
         {
-            proxy.SendMessages(messages,source);
+            proxy.SendMessages(messages.ToList(),source);
         }
 
         public void SendMessages(byte[] messages, string source)
