@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using MessagePack;
 
 namespace Analogy.LogViewer.WCF.WCFServices
 {
@@ -19,9 +20,10 @@ namespace Analogy.LogViewer.WCF.WCFServices
             Subscription?.Invoke(this, messages);
         }
 
-        public void SendMessages(byte[] messages, string dataSource)
+        public void SendMessagesAsByte(byte[] messages, string dataSource)
         {
-            //Subscription?.Invoke(this, messages);
+            var msgs=MessagePackSerializer.Deserialize<List<AnalogyLogMessage>>(messages);
+            Subscription?.Invoke(this, msgs);
         }
     }
 }

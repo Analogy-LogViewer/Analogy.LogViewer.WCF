@@ -59,8 +59,10 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                     }
                 };
             }
+            
+            Uri address = new Uri($"http://{UserSettingsManager.UserSettings.Settings.IP}:{UserSettingsManager.UserSettings.Settings.Port}/AnalogyService");
 
-            StartStopStopHost(_receiver);
+            StartStopStopHost(_receiver, address);
             return Task.CompletedTask;
         }
 
@@ -73,7 +75,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 
         public void StartReceiving()
         {
-            InitializeDataProviderAsync(Logger);
+            //InitializeDataProviderAsync(Logger);
         }
 
         public void StopReceiving()

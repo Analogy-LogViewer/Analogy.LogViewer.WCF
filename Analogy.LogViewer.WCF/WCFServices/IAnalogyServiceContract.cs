@@ -12,6 +12,6 @@ namespace Analogy.LogViewer.WCF.WCFServices
         [OperationContract(IsOneWay = true)]
         void SendMessages(IEnumerable<AnalogyLogMessage> messages, string dataSource);
         [OperationContract(IsOneWay = true)]
-        void SendMessages(byte[] messages, string dataSource);
+        void SendMessagesAsByte(byte[] messages, string dataSource);
     }
 }

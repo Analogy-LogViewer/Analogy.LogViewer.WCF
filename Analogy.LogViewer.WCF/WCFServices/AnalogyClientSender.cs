@@ -5,18 +5,16 @@ using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.WCF.WCFServices
 {
-    class AnalogyClientSender : WCFNonDuplexClient<IAnalogyServiceContract>, IAnalogyShareable
+    class AnalogyClientSender : WCFNonDuplexClient<IAnalogyServiceContract>
     {
+
         private static string clientEndpointConfigurationSectionName = "AnalogyService_Client";
         private static string clientConfigFile = "Analogy.LogViewer.WCF.dll.config";
-        public AnalogyClientSender(string serverIP, string port) : base(clientEndpointConfigurationSectionName, clientConfigFile, $"http://{serverIP}:{port}/AnalogyService")
+
+        public AnalogyClientSender(string serverIP, int port) : base(clientEndpointConfigurationSectionName, clientConfigFile, $"http://{serverIP}:{port}/AnalogyService")
         {
         }
 
-        public Task<bool> InitializeSender()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public void SendMessage(AnalogyLogMessage message, string source)
         {
@@ -30,12 +28,7 @@ namespace Analogy.LogViewer.WCF.WCFServices
 
         public void SendMessages(byte[] messages, string source)
         {
-            ClientProxy.SendMessages(messages, source);
-        }
-
-        public Task<bool> CleanupSender()
-        {
-            throw new System.NotImplementedException();
+            ClientProxy.SendMessagesAsByte(messages, source);
         }
     }
 }
