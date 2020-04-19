@@ -1,4 +1,6 @@
-# Analogy.LogViewer.WCF  
+# Analogy.LogViewer.WCF  <img src="./Assets/Icon.jpg" align="right" width="155px" height="155px">
+
+
 
 
 <p align="center">
@@ -13,7 +15,7 @@
 <a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/releases" alt="Latest Release">
     <img src="https://img.shields.io/github/v/release/Analogy-LogViewer/Analogy.LogViewer.WCF"/>
 </a>
-<a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/compare/V4.1.12...master"> <img alt="Commits Since Latest Release" src="https://img.shields.io/github/commits-since/Analogy-LogViewer/Analogy.LogViewer.WCF/latest"/>
+<a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/compare/V1.0.0...master"> <img alt="Commits Since Latest Release" src="https://img.shields.io/github/commits-since/Analogy-LogViewer/Analogy.LogViewer.WCF/latest"/>
 </a>
 </p>
 
