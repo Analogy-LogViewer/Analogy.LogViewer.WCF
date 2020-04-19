@@ -44,7 +44,9 @@ namespace Analogy.LogViewer.WCF.IAnalogy
             LogManager.Instance.SetLogger(logger);
             if (!ReceivingInProgress)
             {
-                _receiver = new AnalogyReceiverServer();
+                string address =
+                    $"http://{UserSettingsManager.UserSettings.Settings.IP}:{UserSettingsManager.UserSettings.Settings.Port}/AnalogyService";
+                _receiver = new AnalogyReceiverServer(address);
                 _receiver.Subscription += (s, messages) =>
                 {
                     List<AnalogyLogMessage> msgs = messages.ToList();
@@ -60,9 +62,9 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                 };
             }
             
-            Uri address = new Uri($"http://{UserSettingsManager.UserSettings.Settings.IP}:{UserSettingsManager.UserSettings.Settings.Port}/AnalogyService");
+  
 
-            StartStopStopHost(_receiver, address);
+
             return Task.CompletedTask;
         }
 
@@ -75,7 +77,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 
         public void StartReceiving()
         {
-            //InitializeDataProviderAsync(Logger);
+            StartStopStopHost(_receiver);
         }
 
         public void StopReceiving()
@@ -97,11 +99,11 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 
                 try
                 {
-                    _mSvcHost.Close();
+                    _receiver?.CloseServiceHost();
                 }
                 catch (Exception ex)
                 {
-                    _mSvcHost?.Abort();
+                    _receiver?.Dispose();
                     MessageBox.Show(@"Error: " + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -110,8 +112,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 
                 try
                 {
-                    _mSvcHost = new ServiceHost(singletonInstance, baseAddresses);
-                    _mSvcHost.Open();
+                    _receiver.OpenServiceHost(new List<Type> { typeof(IAnalogyServiceContract) }, _receiver);
                     ReceivingInProgress = true;
                     OnMessageReady?.Invoke(this,
                         new AnalogyLogMessageArgs(
@@ -121,7 +122,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                 }
                 catch (Exception ex)
                 {
-                    _mSvcHost?.Abort();
+                    _receiver?.CloseServiceHost();
                     MessageBox.Show(@"Error: " + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

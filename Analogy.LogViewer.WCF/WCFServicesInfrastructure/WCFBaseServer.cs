@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Xml;
 using Analogy.Interfaces;
 using Analogy.LogViewer.WCF.Managers;
 
@@ -57,7 +58,7 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
         /// </summary>
         /// <param name="contracts">List of Interface/contracts </param>
         /// <param name="service">The class that implement the interface</param>
-        public void OpenServiceHost(List<Type> contracts, Type service)
+        public void OpenServiceHost(List<Type> contracts, object service)
         {
             if (_serviceHost != null && _serviceHost.State == CommunicationState.Opened) return;
             _serviceHost = new ServiceHost(service, new Uri(_baseAddress));
@@ -168,7 +169,32 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
         }
     }
 
+    public class WSDualHttpWCFServer : WCFBaseServer
+    {
+        private readonly int _sendRecievedMilisecondsTimeout;
+        private readonly int _maxReceivedMessageSize;
+        public WSDualHttpWCFServer(string baseAddress) : base(baseAddress)
+        {
+            _sendRecievedMilisecondsTimeout = 5000;
+            _maxReceivedMessageSize = int.MaxValue;
+        }
 
+        public WSDualHttpWCFServer(string baseAddress, int receiveTimeout, int maxReceivedMessageSize) : base(baseAddress, receiveTimeout, maxReceivedMessageSize)
+        {
+        }
+
+        protected override Binding GetChannelBinding()
+        {
+            return new WSDualHttpBinding()
+            {
+                ReceiveTimeout = TimeSpan.FromMilliseconds(_sendRecievedMilisecondsTimeout),
+                SendTimeout = TimeSpan.FromMilliseconds(_sendRecievedMilisecondsTimeout),
+                MaxReceivedMessageSize = _maxReceivedMessageSize,
+                Security = new WSDualHttpSecurity() { Mode = WSDualHttpSecurityMode.None },
+                ReaderQuotas = new XmlDictionaryReaderQuotas() { MaxArrayLength = int.MaxValue }
+            };
+        }
+    }
     public class WCFServer : WCFBaseServer
     {
         private Binding Binding { get; }

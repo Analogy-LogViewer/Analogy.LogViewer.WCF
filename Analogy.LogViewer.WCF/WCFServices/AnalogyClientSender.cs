@@ -15,15 +15,16 @@ namespace Analogy.LogViewer.WCF.WCFServices
         private static string clientEndpointConfigurationSectionName = "AnalogyService_Client";
         private static string clientConfigFile = "Analogy.LogViewer.WCF.dll.config";
 
-        public AnalogyClientSender(string serverIP, int port) : base(clientEndpointConfigurationSectionName, clientConfigFile, $"http://{serverIP}:{port}/AnalogyService")
+        public AnalogyClientSender(string serverIP, int port) : base(clientEndpointConfigurationSectionName,
+            clientConfigFile, $"http://{serverIP}:{port}/AnalogyService")
         {
-            Binding =    new WSDualHttpBinding()
+            Binding = new WSDualHttpBinding()
             {
                 ReceiveTimeout = TimeSpan.FromMilliseconds(_sendRecievedMilisecondsTimeout),
                 SendTimeout = TimeSpan.FromMilliseconds(_sendRecievedMilisecondsTimeout),
                 MaxReceivedMessageSize = _maxReceivedMessageSize,
-                Security = new WSDualHttpSecurity() { Mode = WSDualHttpSecurityMode.None },
-                ReaderQuotas = new XmlDictionaryReaderQuotas() { MaxArrayLength = int.MaxValue }
+                Security = new WSDualHttpSecurity() {Mode = WSDualHttpSecurityMode.None},
+                ReaderQuotas = new XmlDictionaryReaderQuotas() {MaxArrayLength = int.MaxValue}
             };
         }
 

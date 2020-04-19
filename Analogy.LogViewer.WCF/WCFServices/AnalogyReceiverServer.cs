@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
+using Analogy.LogViewer.WCF.WCFServicesInfrastructure;
 using MessagePack;
 
 namespace Analogy.LogViewer.WCF.WCFServices
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class AnalogyReceiverServer : IAnalogyServiceContract
+    public class AnalogyReceiverServer : WSDualHttpWCFServer, IAnalogyServiceContract
     {
         public EventHandler<List<AnalogyLogMessage>> Subscription { get; set; }
         public void SendMessage(AnalogyLogMessage message, string dataSource)
@@ -25,5 +27,10 @@ namespace Analogy.LogViewer.WCF.WCFServices
             var msgs=MessagePackSerializer.Deserialize<List<AnalogyLogMessage>>(messages);
             Subscription?.Invoke(this, msgs);
         }
+
+        public AnalogyReceiverServer(string baseAddress) : base(baseAddress)
+        {
+        }
+        
     }
 }
