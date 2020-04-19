@@ -12,6 +12,8 @@
 <a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/blob/master/LICENSE" alt="License">
     <img src="https://img.shields.io/github/license/Analogy-LogViewer/Analogy.LogViewer.WCF"/>
 </a>
+
+ [![Nuget](https://img.shields.io/nuget/v/Analogy.LogViewer.WCF)](https://www.nuget.org/packages/Analogy.LogViewer.WCF/)
 <a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/releases" alt="Latest Release">
     <img src="https://img.shields.io/github/v/release/Analogy-LogViewer/Analogy.LogViewer.WCF"/>
 </a>
