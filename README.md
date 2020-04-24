@@ -10,9 +10,7 @@
     <img src="https://img.shields.io/github/license/Analogy-LogViewer/Analogy.LogViewer.WCF" alt="License"/>
 </a>
 
-[![Nuget](https://img.shields.io/nuget/v/Analogy.LogViewer.WCF)](https://www.nuget.org/packages/Analogy.LogViewer.WCF/) 
-</a>
-<a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/releases">  
+[![Nuget](https://img.shields.io/nuget/v/Analogy.LogViewer.WCF)](https://www.nuget.org/packages/Analogy.LogViewer.WCF/) <a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/releases">  
     <img src="https://img.shields.io/github/v/release/Analogy-LogViewer/Analogy.LogViewer.WCF"  alt="Latest Release"/>
 </a>
 <a href="https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF/compare/V1.0.0...master"> 
