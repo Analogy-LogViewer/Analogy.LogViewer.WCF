@@ -17,10 +17,11 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>WCF Client/Server for sending/receiving Analogy messages (.net Framework 4.7.2</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
+    <Company>Analogy.LogViewer</Company>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.2.3" />
+    <PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.2.5" />
     <PackageReference Include="MessagePack" Version="2.1.115" />
     <PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
