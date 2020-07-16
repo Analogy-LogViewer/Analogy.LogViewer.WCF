@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>net472;net471</TargetFrameworks>
     <AssemblyTitle>Analogy.LogViewer.WCF</AssemblyTitle>
     <Product>Analogy.LogViewer.WCF</Product>
     <Copyright>Lior Banai © 2020</Copyright>
@@ -17,7 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>WCF Client/Server for sending/receiving Analogy messages (.net Framework 4.7.2</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Company>Analogy.LogViewer</Company>
   </PropertyGroup>
   <ItemGroup>
