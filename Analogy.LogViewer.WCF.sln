@@ -2,7 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analogy.LogViewer.WCF", "Analogy.LogViewer.WCF\Analogy.LogViewer.WCF.csproj", "{421C5D89-5CA9-49BB-B5B1-A44D1A372AEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Analogy.LogViewer.WCF", "Analogy.LogViewer.WCF\Analogy.LogViewer.WCF.csproj", "{421C5D89-5CA9-49BB-B5B1-A44D1A372AEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analogy.LogViewer.WCF.UnitTests", "Analogy.LogViewer.WCF.UnitTests\Analogy.LogViewer.WCF.UnitTests.csproj", "{EF6D5EBB-532D-42FC-9CFB-98E7279F981D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,6 +16,10 @@ Global
 		{421C5D89-5CA9-49BB-B5B1-A44D1A372AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{421C5D89-5CA9-49BB-B5B1-A44D1A372AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{421C5D89-5CA9-49BB-B5B1-A44D1A372AEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6D5EBB-532D-42FC-9CFB-98E7279F981D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6D5EBB-532D-42FC-9CFB-98E7279F981D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6D5EBB-532D-42FC-9CFB-98E7279F981D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6D5EBB-532D-42FC-9CFB-98E7279F981D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
