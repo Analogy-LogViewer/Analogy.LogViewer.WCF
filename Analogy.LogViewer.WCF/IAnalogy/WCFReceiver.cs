@@ -15,7 +15,6 @@ namespace Analogy.LogViewer.WCF.IAnalogy
     {
         public string OptionalTitle { get; }
         public Guid ID { get; }
-        public bool IsConnected => true;
         public event EventHandler<AnalogyDataSourceDisconnectedArgs> OnDisconnected;
         public event EventHandler<AnalogyLogMessageArgs> OnMessageReady;
         public event EventHandler<AnalogyLogMessagesArgs> OnManyMessagesReady;
@@ -61,8 +60,8 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                     }
                 };
             }
-            
-  
+
+
 
 
             return Task.CompletedTask;
@@ -75,16 +74,18 @@ namespace Analogy.LogViewer.WCF.IAnalogy
             //nop
         }
 
-        public void StartReceiving()
+        public Task StartReceiving()
         {
             StartStopStopHost(_receiver);
+            return Task.CompletedTask;
         }
 
-        public void StopReceiving()
+        public Task StopReceiving()
         {
             OnDisconnected?.Invoke(this,
                 new AnalogyDataSourceDisconnectedArgs("user disconnected", Environment.MachineName, ID));
             StartStopStopHost(_receiver);
+            return Task.CompletedTask;
         }
 
         private void StartStopStopHost(object singletonInstance, params Uri[] baseAddresses)
