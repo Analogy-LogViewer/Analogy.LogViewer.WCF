@@ -14,7 +14,12 @@ namespace Analogy.LogViewer.WCF.IAnalogy
     class WcfReceiver : IAnalogyRealTimeDataProvider
     {
         public string OptionalTitle { get; }
-        public Guid ID { get; }
+        public Guid Id { get; }
+        public Image ConnectedLargeImage { get; } = null;
+        public Image ConnectedSmallImage { get; } = null;
+        public Image DisconnectedLargeImage { get; } = null;
+        public Image DisconnectedSmallImage { get; } = null;
+
         public event EventHandler<AnalogyDataSourceDisconnectedArgs> OnDisconnected;
         public event EventHandler<AnalogyLogMessageArgs> OnMessageReady;
         public event EventHandler<AnalogyLogMessagesArgs> OnManyMessagesReady;
@@ -33,7 +38,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
             => (Color.Empty, Color.Empty);
         public WcfReceiver(Guid guid)
         {
-            ID = guid;
+            Id = guid;
             OptionalTitle = "Analogy WCF Receiver";
         }
 
@@ -52,7 +57,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                     if (msgs.Count == 1)
                     {
                         var m = msgs.First();
-                        OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", OptionalTitle, ID));
+                        OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", OptionalTitle, Id));
                     }
                     else
                     {
@@ -83,7 +88,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         public Task StopReceiving()
         {
             OnDisconnected?.Invoke(this,
-                new AnalogyDataSourceDisconnectedArgs("user disconnected", Environment.MachineName, ID));
+                new AnalogyDataSourceDisconnectedArgs("user disconnected", Environment.MachineName, Id));
             StartStopStopHost(_receiver);
             return Task.CompletedTask;
         }
@@ -95,7 +100,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                 OnMessageReady?.Invoke(this,
                     new AnalogyLogMessageArgs(
                         new AnalogyLogMessage("Stop Receiving Messages", AnalogyLogLevel.AnalogyInformation,
-                            AnalogyLogClass.General, "", ""), Environment.MachineName, "", ID));
+                            AnalogyLogClass.General, "", ""), Environment.MachineName, "", Id));
                 ReceivingInProgress = false;
 
                 try
@@ -119,7 +124,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                         new AnalogyLogMessageArgs(
                             new AnalogyLogMessage("Server is running and listening to incoming messages",
                                 AnalogyLogLevel.AnalogyInformation, AnalogyLogClass.General, "", ""),
-                            Environment.MachineName, "", ID));
+                            Environment.MachineName, "", Id));
                 }
                 catch (Exception ex)
                 {
