@@ -13,12 +13,12 @@ namespace Analogy.LogViewer.WCF.IAnalogy
 {
     class WcfReceiver : IAnalogyRealTimeDataProvider
     {
-        public string OptionalTitle { get; }
-        public Guid Id { get; }
-        public Image ConnectedLargeImage { get; } = null;
-        public Image ConnectedSmallImage { get; } = null;
-        public Image DisconnectedLargeImage { get; } = null;
-        public Image DisconnectedSmallImage { get; } = null;
+        public string OptionalTitle { get; set; }
+        public Guid Id { get; set; }
+        public Image ConnectedLargeImage { get; set; } = null;
+        public Image ConnectedSmallImage { get; set; } = null;
+        public Image DisconnectedLargeImage { get; set; } = null;
+        public Image DisconnectedSmallImage { get; set; } = null;
 
         public event EventHandler<AnalogyDataSourceDisconnectedArgs> OnDisconnected;
         public event EventHandler<AnalogyLogMessageArgs> OnMessageReady;
