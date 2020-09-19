@@ -28,7 +28,7 @@ namespace Analogy.LogViewer.WCF.Managers
                 }
                 catch (Exception ex)
                 {
-                    LogManager.Instance.LogCritical("", $"Unable to read file {EventLogSettingFile}: {ex}");
+                    LogManager.Instance.LogCritical( $"Unable to read file {EventLogSettingFile}: {ex}","");
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace Analogy.LogViewer.WCF.Managers
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogCritical("", $"Unable to save file {EventLogSettingFile}: {ex}");
+                LogManager.Instance.LogCritical( $"Unable to save file {EventLogSettingFile}: {ex}","");
 
             }
         }

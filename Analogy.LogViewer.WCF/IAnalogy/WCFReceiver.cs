@@ -99,7 +99,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
             {
                 OnMessageReady?.Invoke(this,
                     new AnalogyLogMessageArgs(
-                        new AnalogyLogMessage("Stop Receiving Messages", AnalogyLogLevel.AnalogyInformation,
+                        new AnalogyLogMessage("Stop Receiving Messages", AnalogyLogLevel.Analogy,
                             AnalogyLogClass.General, "", ""), Environment.MachineName, "", Id));
                 ReceivingInProgress = false;
 
@@ -123,7 +123,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                     OnMessageReady?.Invoke(this,
                         new AnalogyLogMessageArgs(
                             new AnalogyLogMessage("Server is running and listening to incoming messages",
-                                AnalogyLogLevel.AnalogyInformation, AnalogyLogClass.General, "", ""),
+                                AnalogyLogLevel.Analogy, AnalogyLogClass.General, "", ""),
                             Environment.MachineName, "", Id));
                 }
                 catch (Exception ex)

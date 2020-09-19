@@ -38,13 +38,13 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
                 Channel = new CustomClientChannel<T>(EndpointConfigurationName, ClientConfigFile, EndpointAddress);
                 if (CreateChannel())
                 {
-                    Logger.LogEvent(LogEnum, $"(init): SOA services Client Initiated (BaseClient.ctor())");
+                    Logger.LogInformation( $"(init): SOA services Client Initiated (BaseClient.ctor())", LogEnum);
                 }
             }
             catch (Exception ex)
             {
                 string error = $"Error init: SOA services Client failed to send init completed:{ex.Message}";
-                Logger.LogException(ex, LogEnum, error);
+                Logger.LogException(  error,ex, LogEnum);
                 throw;
             }
 
@@ -56,7 +56,7 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
             int currentTry = 1;
             ClientProxy = default(T);
             const int intervalWaitMiliseconds = 500;
-            Logger.LogEvent(LogEnum, $"(init): Creating Channel for client: {ClientInformation}. Proxy: {ClientProxy}");
+            Logger.LogInformation( $"(init): Creating Channel for client: {ClientInformation}. Proxy: {ClientProxy}", LogEnum);
             while (currentTry < numberOfRetry)
             {
                 try
@@ -67,8 +67,7 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogException(ex, LogEnum,
-                        $"(init): (Try: currentTry, Thread id: {Thread.CurrentThread.ManagedThreadId}): failed to open channel. Error: {ex.Message}.");
+                    Logger.LogException($"(init): (Try: currentTry, Thread id: {Thread.CurrentThread.ManagedThreadId}): failed to open channel. Error: {ex.Message}.",ex, LogEnum);
                     currentTry += 1;
                     if (currentTry == 60)
                     {
@@ -87,7 +86,7 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
         }
         protected override void RecreateChannel(Exception ex)
         {
-            Logger.LogException(ex, LogEnum, $"{ex} (Error): (CommunicationException). Retrying With Recreation of WCF Channel for client {ClientInformation}");
+            Logger.LogException( $"{ex} (Error): (CommunicationException). Retrying With Recreation of WCF Channel for client {ClientInformation}",ex, LogEnum);
             CreateChannelHandler?.Invoke();
         }
 
@@ -103,7 +102,7 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
             }
             catch (Exception e)
             {
-                Logger.LogException(e, LogEnum, $"error creating Channel: {e.Message}");
+                Logger.LogException( $"error creating Channel: {e.Message}",e, LogEnum);
                 return false;
             }
 
@@ -138,27 +137,27 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
 
         private void channelFactory_Closing(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"channel is being closed");
+            Logger.LogInformation( $"channel is being closed", LogEnum);
         }
 
         private void channelFactory_Closed(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"channel is closed");
+            Logger.LogInformation( $"channel is closed", LogEnum);
         }
 
         private void channelFactory_Faulted(object sender, EventArgs e)
         {
-            Logger.LogWarning(LogEnum, $"channel is Faulted");
+            Logger.LogWarning( $"channel is Faulted", LogEnum);
         }
 
         private void channelFactory_Opening(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"channel is being opened");
+            Logger.LogInformation( $"channel is being opened", LogEnum);
         }
 
         private void channelFactory_Opened(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"channel is opened");
+            Logger.LogInformation( $"channel is opened", LogEnum);
         }
 
         #endregion

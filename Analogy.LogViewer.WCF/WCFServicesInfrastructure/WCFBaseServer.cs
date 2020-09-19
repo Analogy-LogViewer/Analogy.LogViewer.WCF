@@ -95,27 +95,27 @@ namespace Analogy.LogViewer.WCF.WCFServicesInfrastructure
 
         private void channelFactory_Closing(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"Server channel is being closed");
+            Logger.LogInformation( $"Server channel is being closed", LogEnum);
         }
 
         private void channelFactory_Closed(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"Server channel is closed");
+            Logger.LogInformation($"Server channel is closed", LogEnum);
         }
 
         private void channelFactory_Faulted(object sender, EventArgs e)
         {
-            Logger.LogWarning(LogEnum, $"Server channel is Faulted.");
+            Logger.LogWarning( $"Server channel is Faulted.", LogEnum);
         }
 
         private void channelFactory_Opening(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"Server channel is being opened");
+            Logger.LogInformation( $"Server channel is being opened", LogEnum);
         }
 
         private void channelFactory_Opened(object sender, EventArgs e)
         {
-            Logger.LogEvent(LogEnum, $"Server channel is opened");
+            Logger.LogInformation( $"Server channel is opened", LogEnum);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using Analogy.Interfaces.Factories;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Analogy.LogViewer.WCF.IAnalogy
 {
@@ -16,6 +17,9 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         {
             new AnalogyChangeLog("Initial version",AnalogChangeLogType.None, "Lior Banai",new DateTime(2020, 03, 20))
         };
+
+        public Image LargeImage { get; set; }
+        public Image SmallImage { get; set; }
         public IEnumerable<string> Contributors { get; set; } = new List<string> { "Lior Banai" };
         public string About { get; set; } = "Analogy WCF Data Source";
     }
