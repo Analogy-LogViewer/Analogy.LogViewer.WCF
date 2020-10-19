@@ -22,7 +22,7 @@
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.7.4" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.7.5" />
 		<PackageReference Include="MessagePack" Version="2.2.60" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
