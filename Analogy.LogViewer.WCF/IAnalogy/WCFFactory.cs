@@ -9,6 +9,11 @@ namespace Analogy.LogViewer.WCF.IAnalogy
     public class WcfFactory : IAnalogyFactory
     {
         internal static readonly Guid Id = new Guid("10AF1A71-D774-41EC-93CC-D9B798DFC51B");
+        public void RegisterNotificationCallback(INotificationReporter notificationReporter)
+        {
+            
+        }
+
         public Guid FactoryId { get; set; } = Id;
 
         public string Title { get; set; } = "WCF Receiver";
