@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net472;net471</TargetFrameworks>
+		<TargetFrameworks>net48;net472;net471</TargetFrameworks>
 		<AssemblyTitle>Analogy.LogViewer.WCF</AssemblyTitle>
 		<Product>Analogy.LogViewer.WCF</Product>
 		<Copyright>Lior Banai © 2020</Copyright>
@@ -9,6 +9,8 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 		<Description>WCF Client/Server for sending/receiving Analogy messages</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.WCF</PackageProjectUrl>
@@ -17,7 +19,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageReleaseNotes>WCF Client/Server for sending/receiving Analogy messages (.net Framework 4.7.2</PackageReleaseNotes>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.2.1</Version>
+		<Version>1.2.2</Version>
 		<Company>Analogy.LogViewer</Company>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
@@ -25,7 +27,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.8.2.5" />
-		<PackageReference Include="Analogy.LogViewer.Template" Version="1.6.10.1" />
+		<PackageReference Include="Analogy.LogViewer.Template" Version="1.7.0" />
 		<PackageReference Include="MessagePack" Version="2.2.60" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
