@@ -11,30 +11,26 @@ using System.Windows.Forms;
 
 namespace Analogy.LogViewer.WCF.IAnalogy
 {
-    class WcfReceiver : IAnalogyRealTimeDataProvider
+    public class WcfReceiver : Template.OnlineDataProvider
     {
-        public string OptionalTitle { get; set; }
-        public Guid Id { get; set; }
-        public Image ConnectedLargeImage { get; set; } = null;
-        public Image ConnectedSmallImage { get; set; } = null;
-        public Image DisconnectedLargeImage { get; set; } = null;
-        public Image DisconnectedSmallImage { get; set; } = null;
+        public override string OptionalTitle { get; set; }
+        public override Guid Id { get; set; }
+        public override Image ConnectedLargeImage { get; set; } = null;
+        public override Image ConnectedSmallImage { get; set; } = null;
+        public override Image DisconnectedLargeImage { get; set; } = null;
+        public override Image DisconnectedSmallImage { get; set; } = null;
 
-        public event EventHandler<AnalogyDataSourceDisconnectedArgs> OnDisconnected;
-        public event EventHandler<AnalogyLogMessageArgs> OnMessageReady;
-        public event EventHandler<AnalogyLogMessagesArgs> OnManyMessagesReady;
-
-        public IAnalogyOfflineDataProvider FileOperationsHandler { get; } = null;
+        public override IAnalogyOfflineDataProvider FileOperationsHandler { get; set; } = null;
         private IAnalogyLogger Logger { get; set; }
 
         private AnalogyReceiverServer _receiver;
         private bool ReceivingInProgress { get; set; }
         private ServiceHost _mSvcHost;
-        public bool UseCustomColors { get; set; } = false;
-        public IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
+        public override bool UseCustomColors { get; set; } = false;
+        public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
             => Array.Empty<(string, string)>();
 
-        public (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
+        public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
         public WcfReceiver(Guid guid)
         {
@@ -42,8 +38,9 @@ namespace Analogy.LogViewer.WCF.IAnalogy
             OptionalTitle = "Analogy WCF Receiver";
         }
 
-        public Task InitializeDataProviderAsync(IAnalogyLogger logger)
+        public override async Task InitializeDataProviderAsync(IAnalogyLogger logger)
         {
+            await base.InitializeDataProviderAsync(logger);
             Logger = logger;
             LogManager.Instance.SetLogger(logger);
             if (!ReceivingInProgress)
@@ -57,38 +54,34 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                     if (msgs.Count == 1)
                     {
                         var m = msgs.First();
-                        OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", OptionalTitle, Id));
+                        MessageReady(this, new AnalogyLogMessageArgs(m, "", OptionalTitle, Id));
                     }
                     else
                     {
-                        OnManyMessagesReady?.Invoke(this, new AnalogyLogMessagesArgs(msgs.ToList(), "", OptionalTitle));
+                        MessagesReady(this, new AnalogyLogMessagesArgs(msgs.ToList(), "", OptionalTitle));
                     }
                 };
             }
 
 
-
-
-            return Task.CompletedTask;
         }
 
-        public async Task<bool> CanStartReceiving() => await Task.FromResult(true);
+        public override async Task<bool> CanStartReceiving() => await Task.FromResult(true);
 
-        public void MessageOpened(AnalogyLogMessage message)
+        public override void MessageOpened(AnalogyLogMessage message)
         {
             //nop
         }
 
-        public Task StartReceiving()
+        public override Task StartReceiving()
         {
             StartStopStopHost(_receiver);
             return Task.CompletedTask;
         }
 
-        public Task StopReceiving()
+        public override Task StopReceiving()
         {
-            OnDisconnected?.Invoke(this,
-                new AnalogyDataSourceDisconnectedArgs("user disconnected", Environment.MachineName, Id));
+            Disconnected(this, new AnalogyDataSourceDisconnectedArgs("user disconnected", Environment.MachineName, Id));
             StartStopStopHost(_receiver);
             return Task.CompletedTask;
         }
@@ -97,9 +90,7 @@ namespace Analogy.LogViewer.WCF.IAnalogy
         {
             if (ReceivingInProgress)
             {
-                OnMessageReady?.Invoke(this,
-                    new AnalogyLogMessageArgs(
-                        new AnalogyLogMessage("Stop Receiving Messages", AnalogyLogLevel.Analogy,
+                MessageReady(this, new AnalogyLogMessageArgs(new AnalogyLogMessage("Stop Receiving Messages", AnalogyLogLevel.Analogy,
                             AnalogyLogClass.General, "", ""), Environment.MachineName, "", Id));
                 ReceivingInProgress = false;
 
@@ -120,11 +111,8 @@ namespace Analogy.LogViewer.WCF.IAnalogy
                 {
                     _receiver.OpenServiceHost(new List<Type> { typeof(IAnalogyServiceContract) }, _receiver);
                     ReceivingInProgress = true;
-                    OnMessageReady?.Invoke(this,
-                        new AnalogyLogMessageArgs(
-                            new AnalogyLogMessage("Server is running and listening to incoming messages",
-                                AnalogyLogLevel.Analogy, AnalogyLogClass.General, "", ""),
-                            Environment.MachineName, "", Id));
+                    MessageReady(this, new AnalogyLogMessageArgs(new AnalogyLogMessage("Server is running and listening to incoming messages",
+                                AnalogyLogLevel.Analogy, AnalogyLogClass.General, "", ""), Environment.MachineName, "", Id));
                 }
                 catch (Exception ex)
                 {
